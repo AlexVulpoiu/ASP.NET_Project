@@ -1,0 +1,22 @@
+﻿
+<br/>
+@if (TempData.ContainsKey("message"))
+{
+    if (TempData["status"] == "danger")
+    {
+        <p class="alert alert-danger"> @TempData["message"]</p>
+    }
+
+    if (TempData["status"] == "success")
+    {
+        <p class="alert alert-success"> @TempData["message"]</p>
+    }
+
+    if (TempData["status"] == "warning")
+    {
+        <p class="alert alert-info"> @TempData["message"]</p>
+    }
+}
+
+
+

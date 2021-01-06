@@ -1,0 +1,32 @@
+﻿@model Proiect.Models.Task
+@{
+    ViewBag.Title = "EditStatus";
+}
+
+<h2 style="margin-left:30%">Editare status la task-ul @Model.TaskDescription</h2>
+
+<div style="margin-left:30%">
+    @using (Html.BeginForm(actionName: "EditStatus", controllerName: "Tasks", routeValues: "TaskId"))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+
+        @Html.HiddenFor(m => m.TaskId)
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.WorkerId)
+        @Html.HiddenFor(m => m.ProjectId)
+        @Html.HiddenFor(m => m.TaskName)
+        @Html.HiddenFor(m => m.TaskDescription)
+        @Html.HiddenFor(m => m.StartDate)
+        @Html.HiddenFor(m => m.EndDate)
+
+        @Html.Label("Status", "Alegeti statusul")
+        @Html.DropDownListFor(m => m.Status, new SelectList(Model.Statusuri, "Value", "Text"), null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Status, null, new { @class = "text-danger" })<br />
+        <br />
+
+        <button type="submit" class="btn btn-default" style="background-color:#006600; color:white"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;Salvare modificari</button>
+        <br /><br />
+
+        <a href="/Tasks/Show/@Model.TaskId" class="btn btn-default" style="background-color:#1a1a1a; color:white"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Inapoi la task</a>
+    }
+</div>

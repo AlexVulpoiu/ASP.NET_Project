@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@Html.Partial("_Notification")
+<h2>@ViewBag.Message</h2>
+
+<h2 style="text-align:center"><b>Utilizatori</b></h2>
+<br />  
+<ul class="list-group" style="margin-left:25%; margin-right:25%">
+
+    @foreach (var elem in ViewBag.Users)
+    {
+        if (elem.UserName != ViewBag.AdminName)
+        {
+            <li class="list-group-item " style="background-color:#ffff66; border-color:#1a1a1a">
+                <div class="pull-left" style="text-align:center"><b>@elem.UserName</b></div>
+                <form method="post" action="/Users/Delete/@elem.Id">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> &nbsp Sterge Utilizatorul </button>
+                </form>
+                <div class="clearfix"></div>
+            </li>
+        }
+    }
+
+</ul>
+

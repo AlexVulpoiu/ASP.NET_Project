@@ -1,0 +1,36 @@
+﻿@model Proiect.Models.Team
+@{
+                /**/
+
+                ViewBag.Title = "NewMember";
+}
+<div style="margin-left:30%">
+    @using (Html.BeginForm(actionName: "NewMember", controllerName: "Teams", routeValues: new { UserId = Model.UserId, TeamId = Model.TeamId }))
+    {
+        <br />
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.TeamId)
+        <br />
+
+        <h1>Adaugare membru</h1>
+        <br />
+        <select name="Ruser">
+            @foreach (var elem in ViewBag.UnusedUser)
+            {
+                <option value="@elem.Id">
+                    @elem.UserName
+                </option>
+            }
+        </select>
+
+        <br />
+        <br />
+
+        <button class="btn btn-default" type="submit" style="background-color:#006600; color:white">Adaugati membrul</button> 
+        <br />
+        <br />
+        <a href="/Teams/Show/@Model.TeamId" class="btn btn-default" style="background-color:#1a1a1a; color:white"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Inapoi</a>
+
+    }
+</div>
+

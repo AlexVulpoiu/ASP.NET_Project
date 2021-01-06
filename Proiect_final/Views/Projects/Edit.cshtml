@@ -1,0 +1,46 @@
+﻿@model Proiect.Models.Project
+@{
+    ViewBag.Title = "Editare proiect";
+}
+
+<br />
+<br />
+<h2 style="margin-left:30%">Editare proiect</h2>
+<br />
+<br />
+
+<div style="margin-left:30%">
+    @using (Html.BeginForm(actionName: "Edit", controllerName: "Projects", routeValues: Model.ProjectId))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+
+        @Html.HiddenFor(m => m.ProjectId)
+
+        @Html.Label("ProjectName", "Nume proiect")
+        <br />
+        @Html.Editor("ProjectName")
+        @Html.ValidationMessage("ProjectName", null, new { @class = "text-danger" })
+        <br />
+        <br />
+        @Html.Label("ProjectDescription", "Descriere proiect")
+        <br />
+        @Html.Editor("ProjectDescription")
+        @Html.ValidationMessage("ProjectDescription", null, new { @class = "text-danger" })
+
+        <br />
+        <br />
+
+        @Html.Label("TeamId", "Echipa")
+        <br />
+        @Html.DropDownListFor(m => m.TeamId, new SelectList(Model.Echipe, "Value", "Text"), "Selectati echipa", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TeamId, null, new { @class = "text-danger" })
+        <br />
+        <br />
+
+        <button type="submit" style="background-color:#006600; color:white" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;Salvare modificari</button>
+        <br /><br />
+        <a href="/Projects/Show/@Model.ProjectId" class="btn btn-default" style="background-color:#1a1a1a; color:white"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Inapoi</a>
+
+    }
+</div>
+    

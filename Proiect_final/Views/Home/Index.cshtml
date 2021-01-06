@@ -1,0 +1,69 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "Home Page";
+}
+
+@Html.Partial("_Notification")
+
+<br />
+<br />
+<a href="#echipe" class="btn btn-primary" style="background-color:#006600"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;Catre echipele mele&nbsp;<span class="glyphicon glyphicon-arrow-down"></span></a>
+<br />
+
+<section id="proiecte">
+    <div>
+        <h2 style="text-align:center"><b>Proiectele mele</b></h2>
+
+        <br />
+        <br />
+        @foreach (var elem in ViewBag.Projects)
+        {
+            int lg = elem.Tasks.Count;
+            int rez = 0;
+            foreach (var t in elem.Tasks)
+            {
+                if (t.Status == "Done")
+                {
+                    rez = rez + 1;
+                }
+            }
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="background-color:#1a1a1a">
+                    <a class="panel-title" href="/Projects/Show/@elem.ProjectId"> <span class="glyphicon glyphicon-hand-right"></span> @elem.ProjectName</a>
+                </div>
+                <div class="panel-body" style="background-color:#ffff66">
+                    <p><i>@rez/@lg task-uri rezolvate</i></p>
+                    @elem.ProjectDescription
+                    <br />
+                    <a href="/Projects/Show/@elem.ProjectId" class="btn btn-primary pull-right" style="background-color:#1a1a1a"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Vizualizeaza proiectul</a>
+                </div>
+            </div>
+            <br />
+        }
+        <hr />
+        <br />
+
+    </div>
+</section>
+
+<br />
+<section id="echipe">
+    <div>
+        <div class="panel panel-primary" style="margin-left:20%; margin-right:20%">
+            <div class="panel-heading" style="background-color:#006600">
+                <h2 style="text-align:center"><b>Echipele mele</b></h2>
+            </div>
+            <div class="panel-body" style="background-color:#ffff66">
+                @foreach (var elem in ViewBag.Teams)
+                {
+                    <a class="list-group-item" href="/Teams/Show/@elem.TeamId" style="text-align:center; margin-left:25%; width:50%; background-color:#1aff1a">@elem.TeamName</a>
+                    <br />
+                }
+            </div>
+        </div>
+    </div>
+
+    <a href="#proiecte" class="btn btn-primary" style="background-color:#006600"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Catre proiectele mele&nbsp;<span class="glyphicon glyphicon-arrow-up"></span></a>
+
+</section>

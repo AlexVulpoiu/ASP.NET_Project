@@ -1,0 +1,94 @@
+﻿@model Proiect.Models.Team
+
+@{
+    ViewBag.Title = Model.TeamName.ToString();
+}
+
+@Html.Partial("_Notification")
+
+<h1 style="text-align:center"><b>Echipa @Model.TeamName</b></h1>
+<br />
+<br />
+@foreach (Proiect.Models.Project project in Model.Projects)
+{
+    int lg = project.Tasks.Count;
+    int rez = 0;
+    foreach (var t in project.Tasks)
+    {
+        if (t.Status == "Done")
+        {
+            rez = rez + 1;
+        }
+    }
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="background-color:#1a1a1a">
+            <a class="panel-title" href="/Projects/Show/@project.ProjectId"> <span class="glyphicon glyphicon-hand-right"></span> @project.ProjectName</a>
+        </div>
+        <div class="panel-body" style="background-color:#ffff66">
+            <p><i>@rez/@lg task-uri rezolvate</i></p>
+            @project.ProjectDescription
+            <br />
+            <a href="/Projects/Show/@project.ProjectId" class="btn btn-primary pull-right" style="background-color:#1a1a1a"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Vizualizeaza proiectul</a>
+        </div>
+    </div>
+
+    <br />
+}
+
+<br />
+<br />
+
+<h2> <b>Membrii echipei</b></h2>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading" style="background-color:#006600">
+        <div>
+            <h3 class="pull-left">Organizatorul echipei: @ViewBag.Manager.UserName</h3>
+            @if ((ViewBag.afisareButoane == true && Model.UserId == ViewBag.currentUser) || ViewBag.isAdmin)
+            {
+            <form action="/Teams/Search/">
+                <input type="hidden" name="TeamId" value="@Model.TeamId" />
+                <input type="hidden" name="search" value="">
+                <button class="btn btn-primary; pull-right" style="background-color:#ffff66;margin-top:17px; width:152px" type="submit"><span class="glyphicon glyphicon-plus" style="color:black"></span>&nbsp;<span style="color:black">Adauga membru</span></button>
+            </form>
+            }
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="panel-body" style="background-color:#ffff66; padding:0px;">
+        @foreach (var elem in ViewBag.Members)
+        {
+            <li class="list-group-item" style="background-color:#ffff66;">
+                <div>
+                    <p class="pull-left">@elem.UserName</p>
+                    @if ((ViewBag.afisareButoane == true && Model.UserId == ViewBag.currentUser) || ViewBag.isAdmin)
+                    {
+                        <a class="btn btn-danger pull-right" href="/Teams/DeleteMember/@elem.Id/@Model.TeamId"><span class="glyphicon glyphicon-trash"></span> &nbsp Sterge membrul </a>
+                    }
+                </div>
+                <div class="clearfix"></div>
+
+            </li>
+        }
+    </div>
+</div>
+
+
+<div>
+    @if ((ViewBag.afisareButoane == true && Model.UserId == ViewBag.currentUser) || ViewBag.isAdmin)
+    {
+        <form class="pull-left" method="post" style="margin-right:39px" action="/Teams/Delete/@Model.TeamId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+            <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash"></span> &nbsp;Sterge echipa</button>
+        </form>
+
+        <a href="/Teams/Edit/@Model.TeamId" class="pull-left btn btn-default" style="background-color:#006600; color:white"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Editeaza echipa</a>
+        <div class="clearfix"></div>
+    }
+</div>
+
+<br />
+<hr />
+<a href="/Home/Index" class="btn btn-default" style="background-color:#1a1a1a"><span class="glyphicon glyphicon-home" style="color:white">&nbsp;</span><span style="color:white">Proiectele si echipele mele</span></a>

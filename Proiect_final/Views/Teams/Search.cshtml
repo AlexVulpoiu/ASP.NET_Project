@@ -1,0 +1,56 @@
+﻿@model Proiect.Models.Team
+
+<br />
+<h2 style="margin-left:37%; margin-right:37%">Cautati un utilizator</h2>
+
+<div style="margin-left:37%; margin-right:37%">
+    <br />
+    <form class="card card-sm" method="GET">
+        <input type="hidden" name="TeamId" value="@Model.TeamId">
+        <input class="form-control form-control-lg form-controlborderless" type="text" name="search"
+                value="@ViewBag.SearchString"
+                placeholder="Cauta membrul dupa nume">
+        <br />
+        <button class="btn btn-lg btn-success"
+                type="submit"
+                style="background-color:#006600">
+            Cauta utilizatorul
+        </button>
+    </form>
+</div>
+
+
+
+<br /><br />
+@if (ViewData.ContainsKey("UsersList"))
+{
+    <div class="panel panel-primary" style="margin-left:28%; margin-right:28%; border-color:#1a1a1a">
+        <div class="panel-heading" style="background-color:#1a1a1a">
+            <h4 style="text-align:center">Utilizatori disponibili:</h4>
+        </div>
+        <div class="panel-body" style="background-color:#ffff66">
+            @if (ViewBag.UsersList.Count == 0)
+            {
+                <h4 style="text-align:center; color:#1a1a1a">Nu sunt utilizatori disponibili pentru aceasta cautare</h4>
+            }
+            @foreach (var elem in ViewBag.UsersList)
+            {
+                using (Html.BeginForm(actionName: "NewMember", controllerName: "Teams", routeValues: new { UserId = Model.UserId, TeamId = Model.TeamId }))
+                {
+                    <br />
+                    @Html.HiddenFor(m => m.UserId)
+                    @Html.HiddenFor(m => m.TeamId)
+                    <input type="hidden" , name="Ruser" value="@elem.Id">
+                    <div style="text-align:center">
+                        <button class="btn btn-default" type="submit" style="background-color:#ffff99; width:250px; border-color:#1a1a1a; color:#1a1a1a"><span class="glyphicon glyphicon-plus"></span>&nbsp;@elem.UserName</button>
+                    </div>
+                }
+
+            }
+        </div>
+
+    </div>
+    <br />
+    <a href="/Teams/Show/@Model.TeamId" class="btn btn-default" style="background-color:#1a1a1a; margin-left:40%; color:white"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Inapoi la pagina echipei</a>
+
+}

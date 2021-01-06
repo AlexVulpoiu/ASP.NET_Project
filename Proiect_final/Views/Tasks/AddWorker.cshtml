@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "AddWorker";
+}
+
+<br />
+<h2 style="margin-left:35%">Asignare utilizator la task</h2>
+<div style="margin-left:35%">
+    <form method="post" action="/Tasks/AddWorker/@ViewBag.TaskId">
+        <select name="WorkerId">
+            @foreach (var elem in ViewBag.listOfUsers)
+            {
+                if (elem.Id != ViewBag.WorkerId)
+                {
+                    <option value="@elem.Id">
+                        @elem.UserName
+                    </option>
+                }
+
+            }
+        </select>&nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-default" style="background-color:#006600; color:white"> Asigneaza membrul</button>
+
+    </form>
+    <br />
+    
+</div>
+
+<a href="/Tasks/Show/@ViewBag.TaskId" class="btn btn-default" style="background-color:#1a1a1a; margin-left:42%; color:white">Inapoi la pagina task-ului</a>

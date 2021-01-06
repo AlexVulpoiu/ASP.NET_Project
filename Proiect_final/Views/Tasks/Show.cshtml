@@ -1,0 +1,161 @@
+﻿@model Proiect.Models.Task
+@{
+    ViewBag.Title = Model.TaskName;
+}
+
+@Html.Partial("_Notification")
+
+<br />
+<br />
+<div class="panel panel-primary" style="border-color:#1a1a1a">
+    <div class="panel-heading" style="background-color:#1a1a1a; border-color:#1a1a1a">
+        <div>
+            <h4 class="pull-left">@Model.TaskName</h4>
+
+            <div class="pull-right">
+                <h4 class="pull-left">@Model.Status&nbsp;&nbsp;</h4>
+                @if (ViewBag.EditStatus == true)
+                {
+                    <a href="/Tasks/EditStatus/@Model.TaskId" class="btn btn-warning">Editare status</a>
+                }
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="panel-body" style="background-color:#ffff66; border-color:#1a1a1a">
+        <i>@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</i>
+        <br />
+        <p>@Model.TaskDescription</p>
+    </div>
+    <div class="panel-footer" style="background-color:#ffff66; border-color:#1a1a1a">
+        <a href="/Projects/Show/@Model.ProjectId" style="color:#1a1a1a"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;@Model.Project.ProjectName</a>
+    </div>
+</div>
+
+
+<div>
+    @if ((ViewBag.afisareButoane == true && Model.UserId == ViewBag.currentUser) || ViewBag.isAdmin)
+    {
+        <form class="pull-left" method="post" style="margin-right:39px" action="/Tasks/Delete/@Model.TaskId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+            <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash"></span> &nbsp;Sterge task-ul</button>
+        </form>
+
+        <a href="/Tasks/Edit/@Model.TaskId" class="pull-left btn btn-default" style="background-color:#006600; color:white"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Editeaza task-ul</a>
+        <div class="clearfix"></div>
+    }
+</div>
+
+<br />
+<br />
+<br />
+<div>
+    @if (Model.WorkerId != null)
+    {
+        <h4 class="pull-left">Utilizatorul <i>@ViewBag.WorkerName</i> lucreaza la acest task&nbsp;&nbsp;&nbsp;</h4>
+    }
+
+    @if (Model.WorkerId == null)
+    {
+        <h4 class="pull-left"> Nu lucreaza nimeni la acest task &nbsp;&nbsp;&nbsp;</h4>
+    }
+
+    @if ((ViewBag.afisareButoane == true && Model.UserId == ViewBag.currentUser) || ViewBag.isAdmin)
+    {
+        if (Model.WorkerId == null)
+        {
+            <a class="btn btn-default" href="/Tasks/AddWorker/@Model.TaskId" style="background-color:#ffff66"><span class="glyphicon glyphicon-user"></span>&nbsp;Asigneaza un utilizator</a>
+        }
+        if (Model.WorkerId != null)
+        {
+            <a class="btn btn-default " href="/Tasks/AddWorker/@Model.TaskId" style="background-color:#ffff66"><span class="glyphicon glyphicon-transfer"></span>&nbsp;Schimba utilizatorul</a>
+        }
+    }
+
+    <div class="clearfix"></div>
+</div>
+<br />
+<br />
+<br />
+<a href="/Home/Index" class="btn btn-default" style="background-color:#1a1a1a"><span class="glyphicon glyphicon-home" style="color:white">&nbsp;</span><span style="color:white">Proiectele si echipele mele</span></a>
+
+<br />
+<br />
+<br />
+<br />
+
+
+
+
+
+<div class="panel panel-primary" style="border-color:#006600;">
+    <div class="panel-heading" style="background-color:#006600; border-color:#006600">
+        <h4 style="text-align:center">Comentarii</h4>
+    </div>
+    <div class="panel-body" style="background-color:#ffff66; border-color:#1a1a1a">
+        @{ 
+            int nr = Model.Comments.Count();
+        }
+        @foreach (var comm in @Model.Comments)
+        {
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div>
+                            <p>@comm.CommentContent</p> <small class="pull-right"><b>@comm.User.UserName</b>, &nbsp;&nbsp;   @comm.Date</small>
+                        </div>
+                        @if (ViewBag.IsAdmin || comm.UserId == ViewBag.CurrentUser)
+                        {
+                            <div style="display: inline-block; float : left; margin-right: 15px">
+                                <a class="glyphicon glyphicon-pencil" href="/Comments/Edit/@comm.CommentId"></a>
+                            </div>
+                            <div style="display: inline-block; float : left">
+                                <form method="post" action="/Comments/Delete/@comm.CommentId">
+                                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                    <button class="glyphicon glyphicon-trash" style="border: none; background: transparent" type="submit"></button>
+                                </form>
+                            </div>
+                        }
+                        <div class="col-md-2"></div>
+                    </div>
+                </div>
+            </div>
+            nr = nr - 1;
+            if (nr != 0)
+            {
+                <hr style="border-color:#006600" />
+            }
+
+        }
+    </div>
+    <div class="panel-footer" style="background-color:#ffff66; border-color:#1a1a1a">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <div class="panel" style="background-color:#ffff66">
+                        <form method="post" action="/Comments/New">
+                            <div class="panel-body">
+                                <input type="hidden" name="TaskId" value="@Model.TaskId" />
+                                <input type="hidden" name="Date" value="@DateTime.Now" />
+                                <input type="hidden" name="UserId" value="@Model.UserId" />
+                                <label>Continut comentariu</label>
+                                <br />
+                                <textarea class="form-control" name="CommentContent"></textarea>
+                                <br />
+                                <button class="btn btn-success " type="submit" style="background-color:#006600">Adauga comentariu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

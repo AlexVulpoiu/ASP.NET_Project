@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "AddTeam";
+}
+
+
+<h2>Echipele mele</h2>
+<br />
+<h3>Verificati existenta echipei</h3>
+<ul class="list-group" style="border-color:#006600">
+    @foreach (var elem in ViewBag.Echipe)
+    {
+        <a href="/Teams/Show/@elem.Value" target="_blank" ><li class="list-group-item" style="background-color:#ffff66; border-color:#006600">@elem.Text</li></a>
+    }
+</ul>
+
+<div>
+    <a href="/Projects/New" class="btn btn-default" style="background-color:#006600; color:white"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Creaza proiect cu o echipa existenta</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="/Teams/NewTeam" class="btn btn-default" style="background-color:#006600; color:white"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Adauga echipa</a> 
+</div>

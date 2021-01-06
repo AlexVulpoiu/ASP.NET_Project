@@ -1,0 +1,30 @@
+﻿@model Proiect.Models.Team
+
+@{
+    ViewBag.Title = "Editare echipa";
+}
+
+<br />
+<h2 style="margin-left:30%">Editare echipa</h2>
+<br />
+
+<div style="margin-left:30%">
+    @using (Html.BeginForm(actionName: "Edit", controllerName: "Teams", routeValues: Model.TeamId))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+
+        @Html.HiddenFor(m => m.TeamId)
+        @Html.HiddenFor(m => m.UserId)
+        @Html.Label("TeamName", "Nume echipa")
+        <br />
+        @Html.Editor("TeamName")
+        @Html.ValidationMessage("TeamName", null, new { @class = "text-danger" })
+
+        <br />
+        <hr />
+        <button type="submit" class="btn btn-default" style="background-color:#006600; color:white"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;Salveaza modificarile</button>
+        <br />
+        <br />
+        <a href="/Teams/Show/@Model.TeamId" class="btn btn-default" style="background-color:#1a1a1a; color:white"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Inapoi la pagina echipei</a>
+    }
+</div>

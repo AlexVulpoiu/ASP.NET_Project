@@ -1,0 +1,59 @@
+﻿@model Proiect.Models.Task
+@{
+    ViewBag.Title = "Editare task";
+}
+<br />
+<br />
+<h2 style="margin-left:30%">Editare task</h2>
+<br />
+<br />
+<div style="margin-left:30%">
+    @using (Html.BeginForm(actionName: "Edit", controllerName: "Tasks", routeValues: "TaskId"))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+
+        @Html.HiddenFor(m => m.TaskId)
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.WorkerId)
+        @Html.HiddenFor(m => m.ProjectId)
+        @Html.Label("TaskName", "Nume task")
+        <br />
+        @Html.Editor("TaskName")
+        @Html.ValidationMessage("TaskName", null, new { @class = "text-danger" })
+        <br />
+        <br />
+        @Html.Label("TaskDescription", "Descriere task")
+        <br />
+        @Html.Editor("TaskDescription")
+        @Html.ValidationMessage("TaskDescription", null, new { @class = "text-danger" })
+        <br />
+        <br />
+
+        @Html.Label("StartDate", "Data start")
+        <br />
+        @Html.Editor("StartDate")
+        @Html.ValidationMessage("StartDate", null, new { @class = "text-danger" })
+        <br />
+        <br />
+
+        @Html.Label("EndDate", "Data final")
+        <br />
+        @Html.Editor("EndDate")
+        @Html.ValidationMessage("EndDate", null, new { @class = "text-danger" })
+
+        <br />
+        <br />
+
+        @Html.Label("Status", "Alegeti statusul")
+        @Html.DropDownListFor(m => m.Status, new SelectList(Model.Statusuri, "Value", "Text"), "Selectati statusul", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Status, null, new { @class = "text-danger" })<br />
+
+        <button type="submit" class="btn btn-default" style="background-color:#006600; color:white"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;Salvare modificari</button>
+        <br />
+        <br />
+        <a href="/Tasks/Show/@Model.TaskId" class="btn btn-default" style="background-color:#1a1a1a; color:white"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Inapoi la task</a>
+    }
+</div>
+<br />
+<hr />
+<br />

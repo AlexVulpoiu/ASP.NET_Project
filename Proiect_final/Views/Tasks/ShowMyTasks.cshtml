@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "ShowMyTasks";
+}
+
+
+
+<br />
+<br />
+<div class="panel panel-primary" style="border-color:#006600; margin-left:35%; margin-right:35%">
+    <div class="panel-heading" style="background-color:#006600; border-color:#006600;">
+        <h3 style="text-align:center">Taskurile mele</h3>
+    </div>
+    <div class="panel-body" style="background-color:#ffff66; border-color:#006600; padding:0px;">
+        @foreach (Proiect.Models.Task t in ViewBag.MyTasks)
+        {
+            <li class="list-group-item" style="background-color:#ffff66; border-color:#006600;">
+                <a href="/Tasks/Show/@t.TaskId"> <span class="glyphicon glyphicon-hand-right"></span>&nbsp;<b>@t.TaskName</b></a>
+                <p><i><span class="glyphicon glyphicon-folder-open"></span>&nbsp;Proiectul <a href="/Projects/Show/@t.ProjectId">@t.Project.ProjectName</a></i></p>
+            </li>
+        }
+        <div class="clearfix"></div>
+    </div>
+</div>
+<br />
+<br />
+<br />
