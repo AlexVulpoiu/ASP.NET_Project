@@ -58,7 +58,7 @@ namespace Proiect.Controllers
                     db.SaveChanges();
                     TempData["message"] = "Echipa a fost adaugata!";
                     TempData["status"] = "succes";
-                    return Redirect("/Home/Index");
+                    return Redirect("/Projects/New");
                 }
                 else
                 {
