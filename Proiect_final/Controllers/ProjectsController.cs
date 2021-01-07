@@ -39,8 +39,11 @@ namespace Proiect.Controllers
             var user = from x in db.TeamUsers
                         where x.TeamId == teamId && x.Id == userId
                         select x;
-            if (user != null)
-                return true;
+            foreach(var x in user)
+            {
+                if (x.Id == userId)
+                    return true;
+            }
             return false;
         }
 
