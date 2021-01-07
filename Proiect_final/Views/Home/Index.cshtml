@@ -1,4 +1,4 @@
-﻿@{
+@{
     /**/
 
     ViewBag.Title = "Home Page";
@@ -15,7 +15,12 @@
     <div>
         <h2 style="text-align:center"><b>Proiectele mele</b></h2>
 
+
         <br />
+        @if (ViewBag.Projects.Count == 0)
+        {
+            <h3 style="text-align:center"><i>Momentan, nu lucrezi la niciun proiect!</i></h3>
+        }
         <br />
         @foreach (var elem in ViewBag.Projects)
         {
@@ -55,6 +60,10 @@
                 <h2 style="text-align:center"><b>Echipele mele</b></h2>
             </div>
             <div class="panel-body" style="background-color:#ffff66">
+                @if(ViewBag.Teams.Count == 0)
+                {
+                    <h3 style="text-align:center"><i>Momentan, nu faci parte din nicio echipa!</i></h3>
+                }
                 @foreach (var elem in ViewBag.Teams)
                 {
                     <a class="list-group-item" href="/Teams/Show/@elem.TeamId" style="text-align:center; margin-left:25%; width:50%; background-color:#1aff1a">@elem.TeamName</a>
